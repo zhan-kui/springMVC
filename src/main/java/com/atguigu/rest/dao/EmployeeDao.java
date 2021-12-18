@@ -19,7 +19,7 @@ public class EmployeeDao {
 //        employees.put(1005, new Employee(1005, "E-EE", "ee@163.com", 1));
 //    }
 
-    private static Integer initId = 1009999999;
+    private static Integer initId = 19898989;
 
     public void save(Employee employee){
         if(employee.getId() == null){
