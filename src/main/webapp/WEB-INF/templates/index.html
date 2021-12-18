@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+
+</head>
+<body>
+<a th:href="@{/employee}">查看员工信息restful</a>
+
+<p style="color: blue">--------------------Json和ajax请求---------------------------</p>
+<div style="color: rebeccapurple " >
+    <span>提交post请求通过RequestEntity接受响应头和响应体，返回一个Json</span>
+<form th:action="@{/ReRqBody}" method="post">
+    姓名： <input type="text" name="name" >
+    年龄： <input type="text" name="age">
+    <input  type="submit" value="提交"><br>
+</form>
+</div>
+
+<div id="ajax1" style="border:darkblue" >
+<span>SpringMVC处理ajax请求</span>
+
+        姓名： <input value="娜美" id="xingming" type="text" name="name">
+        年龄： <input value="16" id="nianling" type="text" name="age">
+        <input id="tijiao" @click="sub" type="button" value="提交ajax请求">
+
+
+
+    <div id="msg">
+
+    </div>
+
+</div>
+
+
+
+<a th:href="@{/testDown}">文件下载</a><br>
+<form th:action="@{/testUp}" method="post" enctype="multipart/form-data">
+    选择文件： <input type="file" name = "multipartFile"><br>
+         <input type="submit" value="上传" target = "_blank">
+
+</form>
+<a th:href="@{/error}">报错，自动跳转到捕获异常页面</a><br>
+<a th:href="@{/employee}">查看员工信息restful</a><br>
+
+<div id="app">
+    <a @click="testAxios" th:href="@{/testAxios1}">SpringMVC处理ajax</a>
+</div>
+
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/axios.min.js}"></script>
+<script type="text/javascript">
+
+
+    window.onload = function (){
+
+        var a = document.getElementById("xingming").value;
+        var b = document.getElementById("nianling").value;
+
+
+        new Vue({
+
+            el:"#ajax1",
+            methods:{
+
+                sub:function (event) {
+                    axios({
+                        method:"post",
+                        url:"testAxios1",
+                        params:{
+                            name:a,
+                            age:b
+                        }
+                    }).then(function (date1) {
+
+                     // var jsonstring=   JSON.stringify(date);
+                        alert(date1.data.name +date1.data.age)
+
+                    });
+
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

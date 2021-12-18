@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.rest.dao.MybatisDao">
+    <!-- 使用insert, update,delete,select标签写sql -->
+
+    <select id="getAll" resultType="com.atguigu.rest.bean.Employee">
+        SELECT id,lastName,email,gender from employee_table
+
+    </select>
+
+    <select id="get" resultType="com.atguigu.rest.bean.Employee">
+        SELECT id,lastName,email,gender from employee_table where id = #{id}
+    </select>
+
+    <insert id="insert" >
+--         INSERT INTO employee_table (id, lastName, email, gender) values ( 1004,'路飞', 'lufei@qq.com', '0')
+INSERT INTO `employee`.`employee_table` ( `lastName`, `email`, `gender`) VALUES ( #{lastName},  #{email},  #{gender});
+
+
+    </insert>
+
+    <delete id="delete">
+        delete from employee_table   where id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE `employee`.`employee_table` SET  `lastName`= #{lastName}, `email`= #{email}, `gender`= #{gender}) WHERE (`id`=#{id});
+
+    </update>
+
+
+
+</mapper>
