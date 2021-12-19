@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.rest.dao.MybatisDaoPlus">
+
+
+    <resultMap id="resultMapTest" type="com.atguigu.rest.bean.Employee">
+        <!--指定主键列的封装规则
+		id定义主键会底层有优化；
+		column：指定哪一列
+		property：指定对应的javaBean属性
+		  -->
+        <!--
+		使用association定义关联的单个对象的封装规则；
+		也就是封装的这个对象里面的属性又是另一个对象：
+		方法：
+		association可以指定联合的javaBean对象
+		property="dept"：指定哪个属性是联合的对象
+		javaType:指定这个属性对象的类型[不能省略]
+		<association property="dept" javaType="com.atguigu.mybatis.bean.Department">
+			<id column="did" property="id"/>
+			<result column="dept_name" property="departmentName"/>
+		</association>
+	 -->
+        <id column="id" property="id"></id>
+        <result column="last_Name" property="lastName"></result>
+        <result column="e_Mail" property="email"></result>
+        <result column="g_Ender" property="gender"></result>
+    </resultMap>
+    <select id="selectById" resultMap="resultMapTest">
+        select * from employee_table_copy where id = #{id}
+    </select>
+
+</mapper>

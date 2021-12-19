@@ -6,30 +6,106 @@
     <!-- 使用insert, update,delete,select标签写sql -->
 
     <select id="getAll" resultType="com.atguigu.rest.bean.Employee">
-        SELECT id,lastName,email,gender from employee_table
+        SELECT id, lastName, email, gender
+        from employee_table
 
     </select>
 
     <select id="get" resultType="com.atguigu.rest.bean.Employee">
-        SELECT id,lastName,email,gender from employee_table where id = #{id}
+        SELECT id, lastName, email, gender
+        from employee_table
+        where id = #{id}
     </select>
 
-    <insert id="insert" >
---         INSERT INTO employee_table (id, lastName, email, gender) values ( 1004,'路飞', 'lufei@qq.com', '0')
-INSERT INTO `employee`.`employee_table` ( `lastName`, `email`, `gender`) VALUES ( #{lastName},  #{email},  #{gender});
+    <select id="getIf" resultType="com.atguigu.rest.bean.Employee">
+<!-->bind标签可以将ognl表达式绑定到变量中，方便后面引用这个值 -->
+            <bind name="lastName_like" value="'%'+lastName +'%'"/>
+        SELECT id,lastName,email,gender from employee_table
+
+        <!-- 注意下要写在where标签里面，不然老是报错！！！！-->
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="lastName!=null and lastName!=&quot;&quot;">
+                and lastName like #{lastName_like}
+            </if>
+            <if test="email!=null and email.trim()!=&quot;&quot;">
+                and email=#{email}
+            </if>
+            <!-- ognl会进行字符串与数字的转换判断  "0"==0 -->
+            <if test="gender==0 or gender==1">
+                and gender=#{gender}
+            </if>
+        </where>
+    </select>
+
+    <select id="getChoose" resultType="com.atguigu.rest.bean.Employee">
+        SELECT id,lastName,email,gender from employee_table
+
+        <!-- 注意下要写在where标签里面，不然老是报错！！！！-->
+        <where>
+            <choose>
+                <when test="id!=null">
+                    id=#{id}
+                </when>
+                <when test="lastName!=null and lastName!=&quot;&quot;">
+                    lastName like "%" #{lastName} "%"
+                </when>
+                <when test="email!=null and email.trim()!=&quot;&quot;">
+                    email=#{email}
+                </when>
+                <!-- ognl会进行字符串与数字的转换判断  "0"==0 -->
+                <when test="gender==0 or gender==1">
+                    gender=#{gender}
+                </when>
+                <otherwise>
+                    1 =1
+                </otherwise>
+            </choose>
+
+        </where>
+    </select>
+
+    <!-- parameterType：参数类型，可以省略，
+	获取自增主键的值：
+		mysql支持自增主键，自增主键值的获取，mybatis也是利用statement.getGenreatedKeys()；
+		useGeneratedKeys="true"；使用自增主键获取主键值策略
+		keyProperty；指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
+	-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `employee`.`employee_table` (`lastName`, `email`, `gender`)
+        VALUES (#{lastName}, #{email}, #{gender});
+
+
+    </insert>
+
+
+    <insert id="insertForeach">
+
+        INSERT INTO `employee`.`employee_table` (`lastName`, `email`, `gender`)
+        VALUES
+        <foreach collection="listEmployee" item="Employee" separator=",">
+            (#{Employee.lastName}, #{Employee.email}, #{Employee.gender})
+        </foreach>
 
 
     </insert>
 
     <delete id="delete">
-        delete from employee_table   where id = #{id}
+        delete
+        from employee_table
+        where id = #{id}
     </delete>
 
     <update id="update">
-        UPDATE `employee`.`employee_table` SET  `lastName`= #{lastName}, `email`= #{email}, `gender`= #{gender}) WHERE (`id`=#{id});
+        UPDATE `employee`.`employee_table`
+        SET `lastName`= #{lastName},
+            `email`= #{email},
+            `gender`= #{gender})
+        WHERE (`id`=#{id});
 
     </update>
-
 
 
 </mapper>

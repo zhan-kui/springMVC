@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 public class EmployeeDao {
     private static Map<Integer, Employee> employees = null;
 
@@ -21,26 +22,24 @@ public class EmployeeDao {
 
     private static Integer initId = 8888888;
 
-    public void save(Employee employee){
-        if(employee.getId() == null){
+    public void save(Employee employee) {
+        if (employee.getId() == null) {
             employee.setId(initId++);
         }
         employees.put(employee.getId(), employee);
     }
 
-    public Collection<Employee> getAll(){
+    public Collection<Employee> getAll() {
         return employees.values();
     }
 
-    public Employee get(Integer id){
+    public Employee get(Integer id) {
         return employees.get(id);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         employees.remove(id);
     }
-
-
 
 
 }

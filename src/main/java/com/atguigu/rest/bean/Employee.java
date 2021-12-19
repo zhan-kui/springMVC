@@ -42,8 +42,8 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Employee(Integer id,String lastName, String email, Integer gender) {
-        this.id = id;
+    public Employee(String lastName, String email, Integer gender) {
+
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;

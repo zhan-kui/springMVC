@@ -66,7 +66,10 @@
       其他其他mapper文件目的是找到其他文件的sql语句
   -->
     <mappers>
-        <mapper resource="com/atguigu/rest/dao/MybatisDao.xml"/>
+<!-- 这个只能指定单独一个sql映射文件，下面的能指定整个文件夹和配置注解sql的接口（如果建单的sql查询，可以通过@select的注解直接写在接口的头上。。）
+       <mapper resource="com/atguigu/rest/dao/MybatisDao.xml"/>  -->
+
+        <package name="com/atguigu/rest/dao"/>
     </mappers>
 
 
