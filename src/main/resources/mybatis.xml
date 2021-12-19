@@ -66,7 +66,7 @@
       其他其他mapper文件目的是找到其他文件的sql语句
   -->
     <mappers>
-        <mapper resource="com.atguigu.rest.dao.MybatisDao.xml"/>
+        <mapper resource="com/atguigu/rest/dao/MybatisDao.xml"/>
     </mappers>
 
 

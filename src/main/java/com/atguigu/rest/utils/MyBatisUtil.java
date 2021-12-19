@@ -2,6 +2,7 @@ package com.atguigu.rest.utils;
 
 
 import com.atguigu.rest.bean.Employee;
+import com.atguigu.rest.dao.MybatisDao;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -65,6 +66,8 @@ public class MyBatisUtil {
         SqlSession session = null;
         if( factory != null ){
             session =factory.openSession(true);// openSession(true);
+//            MybatisDao mapper = session.getMapper(MybatisDao.class);
+
         }
         return session;
     }
