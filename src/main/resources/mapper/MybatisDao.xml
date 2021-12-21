@@ -102,7 +102,7 @@
         UPDATE employee_table
         SET lastName= #{lastName},
             email= #{email},
-            gender= #{gender}
+            gender= #{gender})
         WHERE id=#{id}
 
     </update>

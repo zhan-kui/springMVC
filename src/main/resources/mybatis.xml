@@ -7,7 +7,7 @@
     <!--使用外部属性配置文件
         resource:指定类路径下的某个属性配置文件
     -->
-    <properties resource="jdbc.properties" />
+    <properties resource="mybatis/jdbc.properties" />
 
 
 
