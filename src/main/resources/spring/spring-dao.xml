@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!--引入db.properties,获取链接数据库的基本信息-->
+	<context:property-placeholder location="classpath:mybatis/jdbc.properties" />
+
+
+	<!--创建数据库连接池:dbcp连接池-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!--创建一个测试类User，看spring的IOC创建对象了没-->
+<!--	<bean id="user" class="com.atguigu.rest.bean.User ">
+		<property name="name" value="娜美"/>
+		<property name="age" value="11"/>
+
+	</bean>-->
+
+	<!-- 配置一个可以执行批量的sqlSession -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<constructor-arg name="executorType" value="BATCH"/>
+	</bean>
+
+	<!--
+		生成SqlSessionFactory
+		需要配置原先SqlMapConfig.xml中的功能
+	-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--引入数据源-->
+        <property name="dataSource" ref="dataSource" />
+        <!--导入SqlMapConfig.xml:就是为了打印sql-->
+        <property name="configLocation" value="classpath:mybatis/mybatis.xml" />
+
+			<!--配置Mybatis分页插件:PageHelper-->
+			<!--版本高，PageHelper根本没有实现Interceptor接口，下面bean标签报错，而PageInterceptor类实现了Interceptor ，修改即可-->
+			<!--<property name="plugins">
+				<array>
+&lt;!&ndash;					<bean class="com.github.pagehelper.PageHelper">  &ndash;&gt;
+					<bean class="com.github.pagehelper.PageInterceptor">
+						<property name="properties">
+							<props>
+								&lt;!&ndash;dialect:数据库方言&ndash;&gt;
+								<prop key="dialect">mysql</prop>
+								<prop key="supportMethodsArguments">true</prop>
+							</props>
+						</property>
+					</bean>
+				</array>
+			</property>-->
+	</bean>
+
+
+    <!--使用tkMapper:简化单表操作的-->
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!--查找SqlsessionFactory-->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		<!--扫描mapper接口包-->
+		<property name="basePackage"
+                  value="com.atguigu.rest.dao" />
+	</bean>
+
+
+</beans>
