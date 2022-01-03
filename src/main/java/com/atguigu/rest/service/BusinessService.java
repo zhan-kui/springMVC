@@ -2,18 +2,24 @@ package com.atguigu.rest.service;
 
 
 import com.atguigu.rest.bean.Employee;
+import com.atguigu.rest.bean.User;
 import com.atguigu.rest.dao.MybatisDao;
 import com.atguigu.rest.utils.MyBatisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 
 public class  BusinessService {
+    @Autowired
+   static MybatisDao mybatisDao;
+
 
     //根据页面传入的员工对象在数据库新增员工对象
    public static int insert(Employee employee){
-       int insertCount = MyBatisUtil.executeSql(MybatisDao.class).insert(employee);
 
+       int insertCount = MyBatisUtil.executeSql(MybatisDao.class).insert(employee);
+//       int insertCount = mybatisDao.insert(employee);
        return  insertCount;
    }
 
@@ -51,5 +57,20 @@ public class  BusinessService {
         return MyBatisUtil.executeSql(MybatisDao.class).get(id);
 
     }
+
+    //根据员工任意属性查询，返回一个员工对象。。。动态条件sql，用了like模糊查询
+    public static List< Employee> getIf(Employee emp){
+
+        return MyBatisUtil.executeSql(MybatisDao.class).getIf(emp);
+
+    }
+    //根据员工任意属性查询，返回一个员工对象。。。动态条件sql，没有用like模糊查询
+    public static  Employee getIfNoLike(Employee emp){
+
+        return MyBatisUtil.executeSql(MybatisDao.class).getIfNoLike(emp);
+
+    }
+
+
 
 }

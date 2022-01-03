@@ -24,14 +24,22 @@ public interface MybatisDao {
     //根据主键员工ID删除一个员工对象
     int delete(Integer id);
 
+    //根据主键员工ID删除一个员工对象
+    int deleteForeach(List list);
+
     //返回所有员工对象的一个list集合
     List<Employee> getAll();
+    List<Employee> getAll01();
+
 
     //根据主键员工ID返回一个员工对象
     Employee get(Integer id);
 
-    //根据员工任意属性查询，返回一个员工对象。。。动态条件sql
+    //根据员工任意属性查询,且使用了like，返回一个员工对象。。。动态条件sql
     List< Employee> getIf(Employee employee);
+
+    //根据员工任意属性查询，返回一个员工对象。。。动态条件sql
+   Employee getIfNoLike(Employee employee);
 
     //根据员工任意属性查询，返回一个员工对象。。。动态条件sql
     List< Employee> getChoose(Employee employee);

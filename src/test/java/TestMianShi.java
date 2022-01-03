@@ -5,8 +5,10 @@ public class TestMianShi {
     @Test
     public void test01(){
         int i = 1;
-        i = i++;
+        i++;
         System.out.println(i);
+        int o = i;
+        System.out.println(o);
         int j = i++;
         System.out.println(j);
        j = i;

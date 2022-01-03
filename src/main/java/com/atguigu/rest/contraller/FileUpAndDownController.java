@@ -47,25 +47,30 @@ public class FileUpAndDownController {
     public String testUp(MultipartFile multipartFile, HttpSession httpSession) throws IOException {
         //获取上传的文件的文件名
         String filename = multipartFile.getOriginalFilename();
-        //获取上传的文件的后缀名
-        String suffixName = filename.substring(filename.lastIndexOf("."));
-        //将UUID作为文件名追加，避免重复，微信下载的图片也这么做的
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        //将uuid和后缀名拼接后的结果作为最终的文件名
-        filename = uuid +  suffixName ;
-      //通过ServletContext获取服务器中photo目录的路径
-        ServletContext servletContext = httpSession.getServletContext();
-        String photoPath = servletContext.getRealPath("photo");
-        File file = new File(photoPath);
-        //判断photoPath所对应路径是否存在
-        if(!file.exists()){
-            //若不存在，则创建目录
-            file.mkdir();
-        }
-        String finalPath = photoPath + File.separator + filename;
-        //上传文件
-        multipartFile.transferTo(new File(finalPath));
+      if(null != filename && !"".equals(filename)){
+          //获取上传的文件的后缀名
+          String suffixName = filename.substring(filename.lastIndexOf("."));
+          //将UUID作为文件名追加，避免重复，微信下载的图片也这么做的
+          String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+          //将uuid和后缀名拼接后的结果作为最终的文件名
+          filename = uuid +  suffixName ;
+          //通过ServletContext获取服务器中photo目录的路径
+          ServletContext servletContext = httpSession.getServletContext();
+          String photoPath = servletContext.getRealPath("photo");
+          File file = new File(photoPath);
+          //判断photoPath所对应路径是否存在
+          if(!file.exists()){
+              //若不存在，则创建目录
+              file.mkdir();
+          }
+          String finalPath = photoPath + File.separator + filename;
+          //上传文件
+          multipartFile.transferTo(new File(finalPath));
+          return "success";
+      }else
+           
         return "success";
-    }
+      }
+
 
 }

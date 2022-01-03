@@ -1,8 +1,6 @@
 package com.atguigu.rest.utils;
 
 
-import com.atguigu.rest.bean.Employee;
-import com.atguigu.rest.dao.MybatisDao;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -48,11 +46,12 @@ public class MyBatisUtil {
         return sqlSession;
     }*/
 
-    private static SqlSessionFactory factory  = null;
+    private static SqlSessionFactory factory  ;
 
     static {
 
-        String config="mybatis.xml";
+
+        String config= "mybatis/mybatis.xml";
         try {
             InputStream inputStream  =Resources.getResourceAsStream(config);
             factory  = new SqlSessionFactoryBuilder().build(inputStream);

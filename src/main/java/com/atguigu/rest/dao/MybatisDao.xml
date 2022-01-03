@@ -11,6 +11,12 @@
 
     </select>
 
+    <select id="getAll01" resultType="com.atguigu.rest.bean.Employee">
+        SELECT id, lastName, email, gender
+        from employee_table
+
+    </select>
+
     <select id="get" resultType="com.atguigu.rest.bean.Employee">
         SELECT id, lastName, email, gender
         from employee_table
@@ -18,8 +24,8 @@
     </select>
 
     <select id="getIf" resultType="com.atguigu.rest.bean.Employee">
-<!-->bind标签可以将ognl表达式绑定到变量中，方便后面引用这个值 -->
-            <bind name="lastName_like" value="'%'+lastName +'%'"/>
+        <!-->bind标签可以将ognl表达式绑定到变量中，方便后面引用这个值 -->
+
         SELECT id,lastName,email,gender from employee_table
 
         <!-- 注意下要写在where标签里面，不然老是报错！！！！-->
@@ -28,7 +34,33 @@
                 id=#{id}
             </if>
             <if test="lastName!=null and lastName!=&quot;&quot;">
+                <bind name="lastName_like" value="'%'+lastName +'%'"/>  <!-- 注意下bind标签如果不放在里面定义，如果里面值为空，会报空指针异常-->
                 and lastName like #{lastName_like}
+            </if>
+            <if test="email!=null and email.trim()!=&quot;&quot;">
+                <bind name="email_like" value="'%'+email +'%'"/>
+                and email like {email_like}
+            </if>
+            <!-- ognl会进行字符串与数字的转换判断  "0"==0 -->
+            <if test="gender==0 or gender==1">
+                and gender=#{gender}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getIfNoLike" resultType="com.atguigu.rest.bean.Employee">
+        <!--bind标签可以将ognl表达式绑定到变量中，方便后面引用这个值 -->
+        <!--  <bind name="lastName_like" value="'%'+lastName +'%'"/>-->
+        SELECT id,lastName,email,gender from employee_table
+
+        <!-- 注意下要写在where标签里面，不然老是报错！！！！-->
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="lastName!=null and lastName!=&quot;&quot;">
+                and lastName= #{lastName}
             </if>
             <if test="email!=null and email.trim()!=&quot;&quot;">
                 and email=#{email}
@@ -98,12 +130,23 @@
         where id = #{id}
     </delete>
 
+    <delete id="deleteForeach">
+        delete from employee_table
+        <if test="list != null and list.size > 0">
+            where id in
+
+            <foreach collection="list" open="(" separator="," close=")"   item="id">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
     <update id="update">
         UPDATE employee_table
         SET lastName= #{lastName},
             email= #{email},
             gender= #{gender}
-        WHERE id=#{id}
+        WHERE id = #{id}
 
     </update>
 

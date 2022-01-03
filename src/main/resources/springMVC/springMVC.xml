@@ -43,13 +43,8 @@
     <mvc:annotation-driven />
 
     <!--必须通过文件解析器的解析才能将文件转换为MultipartFile对象   报错！！！-->
-<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 
-<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-<!--        &lt;!&ndash; 扫描包路径，如果需要扫描多个包中间用半角逗号隔开 &ndash;&gt;-->
-<!--        <property name="basePackage" value="com.atguigu.rest.dao"></property>-->
-<!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
-<!--    </bean>-->
 
 
 

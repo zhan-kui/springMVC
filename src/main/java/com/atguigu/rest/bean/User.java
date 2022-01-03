@@ -1,8 +1,17 @@
 package com.atguigu.rest.bean;
 
-public class User {
+import org.springframework.stereotype.Component;
+
+@Component
+public class User implements UserInterface {
 String name;
 int age;
+@Override
+public String test() {
+
+    System.out.println("调用了user的方法了！！！！");
+    return "I love java";
+}
 
     public User() {
     }
